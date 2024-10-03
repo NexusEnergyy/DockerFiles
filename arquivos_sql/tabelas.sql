@@ -14,7 +14,9 @@ CREATE TABLE Filial (
         nome VARCHAR(200),
         cidade VARCHAR(50),
         uf CHAR(2),
-        submercado VARCHAR(25)
+        submercado VARCHAR(25),
+        fkMatriz INT,
+        FOREIGN KEY (fkMatriz) REFERENCES Matriz(idMatriz)
 );
 
 CREATE TABLE Usuario(
@@ -24,8 +26,7 @@ CREATE TABLE Usuario(
         senha VARCHAR(16),
         cargo VARCHAR(25),
         fkFilial INT,
-        CONSTRAINT fkUsuarioFilial FOREIGN KEY (fkFilial) 
-                REFERENCES Filial(idFilial) 
+        FOREIGN KEY (fkFilial) REFERENCES Filial(idFilial) 
 );
 
 CREATE TABLE ConsumoDados (
@@ -33,5 +34,7 @@ CREATE TABLE ConsumoDados (
         dataReferencia CHAR(6),
         consumoEnergia DECIMAL(8,2),
         emissaoCO2 DECIMAL(8,2),
-        qtdArvores INT
+        qtdArvores INT,
+        fkFilial INT,
+        FOREIGN KEY (fkFilial) REFERENCES Filial(idFilial)
 );
