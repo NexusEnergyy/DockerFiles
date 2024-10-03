@@ -1,0 +1,31 @@
+# Usando a imagem oficial do OpenJDK com o JDK 21
+FROM openjdk:21-jdk-slim
+
+# Instala o Git e o cron no container
+RUN apt-get update && apt-get install -y git cron
+
+# Define o diretório de trabalho dentro do container
+WORKDIR /usr/src/app
+
+# Clona o repositório do seu projeto
+RUN git clone https://github.com/NexusEnergyy/Prot-tipo-JAR.git .
+
+# Cria um script para rodar o JAR
+RUN echo '#!/bin/bash\njava -jar /usr/src/app/Prot-tipo-JAR/BaseDados.jar' > /usr/src/app/run-jar.sh && chmod +x /usr/src/app/run-jar.sh
+
+# Adiciona uma tarefa no cron para rodar o JAR a cada 1 minuto
+RUN echo '* * * * * /usr/src/app/run-jar.sh >> /var/log/cron.log 2>&1' > /etc/cron.d/my-cron-job
+
+# Dá permissão adequada ao arquivo do cron job
+RUN chmod 0644 /etc/cron.d/my-cron-job
+
+# Aplica o cron job
+RUN crontab /etc/cron.d/my-cron-job
+
+# Cria um log file para o cron
+RUN touch /var/log/cron.log
+
+# Comando para iniciar o cron e manter o container rodando
+CMD cron && tail -f /var/log/cron.log
+
+
