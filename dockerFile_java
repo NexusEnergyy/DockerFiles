@@ -8,10 +8,10 @@ RUN apt-get update && apt-get install -y git cron
 WORKDIR /usr/src/app
 
 # Clona o repositório do seu projeto
-RUN git clone https://github.com/NexusEnergyy/Prot-tipo-JAR.git .
+RUN git clone https://github.com/NexusEnergyy/PrototipoJAR.git .
 
 # Cria um script para rodar o JAR
-RUN echo '#!/bin/bash\njava -jar /usr/src/app/Prot-tipo-JAR/BaseDados.jar' > /usr/src/app/run-jar.sh && chmod +x /usr/src/app/run-jar.sh
+RUN echo '#!/bin/bash\njava -jar /usr/src/app/PrototipoJAR/NexusJar/out/artifacts/PrototipoJar_jar/PrototipoJar.jar' > /usr/src/app/run-jar.sh && chmod +x /usr/src/app/run-jar.sh
 
 # Adiciona uma tarefa no cron para rodar o JAR a cada 1 minuto
 RUN echo '* * * * * /usr/src/app/run-jar.sh >> /var/log/cron.log 2>&1' > /etc/cron.d/my-cron-job
@@ -27,5 +27,4 @@ RUN touch /var/log/cron.log
 
 # Comando para iniciar o cron e manter o container rodando
 CMD cron && tail -f /var/log/cron.log
-
 
