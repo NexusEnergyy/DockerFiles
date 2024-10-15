@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y git
 WORKDIR /usr/src/app
 
 # Clone o repositório do seu projeto
-RUN git clone git@github.com:NexusEnergyy/DockerFiles.git .
+RUN git clone https://github.com/NexusEnergyy/Site-Institucional.git .
 
 # Instale as dependências da aplicação
 RUN npm install
