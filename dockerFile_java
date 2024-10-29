@@ -1,13 +1,12 @@
-# Usando a imagem oficial do OpenJDK com o JDK 21
+# Usando a imagem Amazon Corretto JDK 21 com Alpine Linux como base
 FROM amazoncorretto:21-alpine
 
-# Instala o Git, cron e AWS CLI no container
-RUN apt-get update && apt-get install -y \
+# Instala Git, Cron e AWS CLI no container
+RUN apk update && apk add --no-cache \
     git \
-    cron \
-    awscli \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    busybox-suid \
+    aws-cli \
+    && rm -rf /var/cache/apk/*
 
 # Define o diretório de trabalho dentro do container
 WORKDIR /usr/src/app
@@ -16,19 +15,14 @@ WORKDIR /usr/src/app
 RUN git clone https://github.com/NexusEnergyy/PrototipoJAR.git .
 
 # Cria um script para rodar o JAR
-RUN echo '#!/bin/bash\njava -jar /usr/src/app/PrototipoJAR/NexusJar/out/artifacts/PrototipoJar_jar/PrototipoJar.jar' > /usr/src/app/run-jar.sh && chmod +x /usr/src/app/run-jar.sh
+RUN echo '#!/bin/sh\njava -jar /usr/src/app/PrototipoJAR/NexusJar/out/artifacts/PrototipoJar_jar/PrototipoJar.jar' > /usr/src/app/run-jar.sh \
+    && chmod +x /usr/src/app/run-jar.sh
 
 # Adiciona uma tarefa no cron para rodar o JAR a cada 1 minuto
-RUN echo '* * * * * /usr/src/app/run-jar.sh >> /var/log/cron.log 2>&1' > /etc/cron.d/my-cron-job
-
-# Dá permissão adequada ao arquivo do cron job
-RUN chmod 0644 /etc/cron.d/my-cron-job
-
-# Aplica o cron job
-RUN crontab /etc/cron.d/my-cron-job
+RUN echo '* * * * * /usr/src/app/run-jar.sh >> /var/log/cron.log 2>&1' > /etc/crontabs/root
 
 # Cria um log file para o cron
 RUN touch /var/log/cron.log
 
 # Comando para iniciar o cron e manter o container rodando
-CMD cron && tail -f /var/log/cron.log
+CMD crond -f -l 2 && tail -f /var/log/cron.log
