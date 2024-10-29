@@ -1,5 +1,5 @@
 # Usando a imagem oficial do OpenJDK com o JDK 21
-FROM openjdk:21-jdk-slim
+FROM amazoncorretto:21-alpine
 
 # Instala o Git, cron e AWS CLI no container
 RUN apt-get update && apt-get install -y \
