@@ -2,7 +2,7 @@
 FROM openjdk:latest
 
 # Instala o git
-RUN apt-get update && apt-get install -y git
+RUN apk update && apk add --no-cache git
 
 # Define o diretório de trabalho dentro do container
 WORKDIR /usr/src/app
