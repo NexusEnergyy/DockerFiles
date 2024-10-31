@@ -1,8 +1,8 @@
-# Baixa a imagem com Java mais recente
-FROM openjdk:latest
+# Usa a imagem completa do OpenJDK 21 baseada no Debian
+FROM openjdk:21
 
-# Instala o git
-RUN apk update && apk add --no-cache git
+# Instala o Git usando apt-get
+RUN apt-get update && apt-get install -y git
 
 # Define o diretório de trabalho dentro do container
 WORKDIR /usr/src/app
