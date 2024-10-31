@@ -1,8 +1,10 @@
-# Usa a imagem completa do OpenJDK 21 baseada no Debian
-FROM openjdk:21
+# Usa a imagem base Ubuntu mais recente
+FROM ubuntu:latest
 
-# Instala o Git usando apt-get
-RUN apt-get update && apt-get install -y git
+# Atualiza os pacotes e instala o OpenJDK 21 e Git
+RUN apt-get update && \
+    apt-get install -y openjdk-21-jdk git && \
+    rm -rf /var/lib/apt/lists/*
 
 # Define o diretório de trabalho dentro do container
 WORKDIR /usr/src/app
