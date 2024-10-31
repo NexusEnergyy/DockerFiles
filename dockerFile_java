@@ -1,10 +1,8 @@
-# Usa a imagem base Ubuntu mais recente
-FROM ubuntu:latest
+# Use a imagem mais leve do OpenJDK 21
+FROM openjdk:21-slim
 
-# Atualiza os pacotes e instala o OpenJDK 21 e Git
-RUN apt-get update && \
-    apt-get install -y openjdk-21-jdk git && \
-    rm -rf /var/lib/apt/lists/*
+# Instala o Git no container
+RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
 
 # Define o diretório de trabalho dentro do container
 WORKDIR /usr/src/app
@@ -15,5 +13,5 @@ RUN git clone https://github.com/NexusEnergyy/PrototipoJAR.git .
 # Muda o diretório para a pasta PrototipoJar
 WORKDIR /usr/src/app/PrototipoJar
 
-# Executa o Arquivo Jar
+# Comando para executar o arquivo JAR
 CMD ["java", "-jar", "PrototipoJar.jar"]
