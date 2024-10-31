@@ -1,12 +1,8 @@
-# Usando a imagem Amazon Corretto JDK 21 com Alpine Linux como base
-FROM amazoncorretto:21-alpine
+# Baixa a imagem com Java mais recente
+FROM openjdk:latest
 
-# Instala Git, Cron e AWS CLI no container
-RUN apk update && apk add --no-cache \
-    git \
-    busybox-suid \
-    aws-cli \
-    && rm -rf /var/cache/apk/*
+# Instala o git
+RUN apt-get update && apt-get install -y git
 
 # Define o diretório de trabalho dentro do container
 WORKDIR /usr/src/app
@@ -14,15 +10,8 @@ WORKDIR /usr/src/app
 # Clona o repositório do seu projeto
 RUN git clone https://github.com/NexusEnergyy/PrototipoJAR.git .
 
-# Cria um script para rodar o JAR
-RUN echo '#!/bin/sh\njava -jar /usr/src/app/PrototipoJAR/NexusJar/out/artifacts/PrototipoJar_jar/PrototipoJar.jar' > /usr/src/app/run-jar.sh \
-    && chmod +x /usr/src/app/run-jar.sh
+# Muda o diretório para a pasta PrototipoJar
+WORKDIR /usr/src/app/PrototipoJar
 
-# Adiciona uma tarefa no cron para rodar o JAR a cada 1 minuto
-RUN echo '* * * * * /usr/src/app/run-jar.sh >> /var/log/cron.log 2>&1' > /etc/crontabs/root
-
-# Cria um log file para o cron
-RUN touch /var/log/cron.log
-
-# Comando para iniciar o cron e manter o container rodando
-CMD crond -f -l 2 && tail -f /var/log/cron.log
+# Executa o Arquivo Jar
+CMD ["java", "-jar", "PrototipoJar.jar"]
