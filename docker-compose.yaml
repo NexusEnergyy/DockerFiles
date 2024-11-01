@@ -8,6 +8,8 @@ services:
   nexusenergy-mysql:
     image: mysql:latest
     container_name: nexusenergy-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - ./arquivos_sql:/docker-entrypoint-initdb.d
     ports:
