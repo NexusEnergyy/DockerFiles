@@ -3,6 +3,7 @@ version: '3.8'
 networks:
   nexusenergy-net:
     driver: bridge
+    attachable: true
 
 services:
   nexusenergy-mysql:
