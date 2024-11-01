@@ -1,7 +1,8 @@
 version: '3.8'
 
 networks:
-  nexusenergy-net:
+  nexusenergy-net:  
+    name: nexusenergy-net
     driver: bridge
     attachable: true
 
