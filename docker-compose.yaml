@@ -31,7 +31,7 @@ services:
   nexusenergy-java:
     build:
       context: .
-      dockerfile: dockerFile_java  
+      dockerfile: dockerFile_java
     container_name: nexusenergy-java
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -40,9 +40,9 @@ services:
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
       AWS_SESSION_TOKEN: ${AWS_SESSION_TOKEN}
-    networks:
-      - nexusenergy-net
     ports:
       - "8080:8080"
-
-
+    networks:
+      - nexusenergy-net
+    depends_on:
+      - nexusenergy-mysql
