@@ -1,11 +1,17 @@
 version: '3.8'
 
+networks:
+  nexusenergy-net:
+    driver: bridge
+
 services:
-  mysql:
+  nexusenergy-mysql:
     image: mysql:latest
     container_name: nexusenergy-mysql
     environment:
-      MYSQL_ROOT_PASSWORD: Vidanova-123
+       MYSQL_DATABASE: ${MYSQL_DATABASE}
+       MYSQL_USER: ${MYSQL_USER}
+       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - ./arquivos_sql:/docker-entrypoint-initdb.d
     ports:
@@ -13,7 +19,7 @@ services:
     networks:
       - nexusenergy-net
 
-  node:
+  nexusenergy-node:
     build:
       context: .
       dockerfile: dockerFile_node
@@ -23,10 +29,10 @@ services:
     networks:
       - nexusenergy-net
 
-  java:
+  nexusenergy-java:
     build:
       context: .
-      dockerfile: dockerFile_java  # Usa o Dockerfile Java atualizado com openjdk:21-slim
+      dockerfile: dockerFile_java  
     container_name: nexusenergy-java
     environment:
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
@@ -34,7 +40,7 @@ services:
       AWS_SESSION_TOKEN: ${AWS_SESSION_TOKEN}
     networks:
       - nexusenergy-net
+    ports:
+      - "8080:8080"
 
-networks:
-  nexusenergy-net:
-    driver: bridge
+
