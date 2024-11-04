@@ -10,3 +10,6 @@ WORKDIR /usr/src/app
 # Clona o repositório do seu projeto
 RUN git clone https://github.com/NexusEnergyy/PrototipoJAR.git .
 
+# Executa o arquivo JAR
+CMD ["java", "-jar", "PrototipoJar.jar"]
+
