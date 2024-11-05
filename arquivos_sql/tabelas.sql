@@ -42,7 +42,7 @@ CREATE TABLE Usuario (
 
 CREATE TABLE ConsumoDados (
     idDados INT PRIMARY KEY AUTO_INCREMENT,
-    dataReferencia DATE,
+    dataReferencia CHAR(6),
     consumoEnergia DECIMAL(8,2),
     emissaoCO2 DECIMAL(8,2),
     qtdArvores INT,
