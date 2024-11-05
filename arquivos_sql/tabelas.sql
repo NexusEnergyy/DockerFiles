@@ -66,6 +66,7 @@ CREATE TABLE HistoricoIA (
     pergunta VARCHAR(1000),
     resposta VARCHAR(1000),
     dataResposta DATETIME,
+    fkFilial INT,
     FOREIGN KEY (fkFilial)
 		REFERENCES Filial(idFilial)
 );
